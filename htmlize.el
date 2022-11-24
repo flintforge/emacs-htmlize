@@ -316,6 +316,11 @@ Set this to nil if you prefer the default (fundamental) mode."
 		 (function :tag "User-defined major mode"))
   :group 'htmlize)
 
+(defcustom htmlize-custom-css-link nil
+  "an additional custom css stylesheet"
+  :type 'string
+  :group 'htmlize)
+
 (defcustom htmlize-pre-style nil
   "When non-nil, `<pre>' tags will be decorated with style
 information in `font' and `inline-css' modes. This allows a
@@ -1568,6 +1573,9 @@ it's called with the same value of KEY.  All other times, the cached
                         "")
                       htmlize-head-tags)
               (htmlize-method insert-head buffer-faces face-map)
+	      (when htmlize-custom-css-link
+                (insert (concat "    <link rel='stylesheet' type='text/css' href='"
+				htmlize-custom-css-link "'/>\n")))
               (insert "  </head>")
               (put places 'head-end (point-marker))
               (insert "\n  ")
